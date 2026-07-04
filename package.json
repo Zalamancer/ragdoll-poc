@@ -1,0 +1,27 @@
+{
+  "name": "ragdoll-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --format=esm --outfile=dist/main.js --sourcemap",
+    "check": "tsc --noEmit",
+    "sync": "rsync -a --delete --exclude node_modules --exclude src --exclude package.json --exclude package-lock.json --exclude tsconfig.json ./ /tmp/ragdoll-poc-serve/ && sed -i \"\" \"s|dist/main.js[^\\\"]*|dist/main.js?v=$(date +%s)|\" /tmp/ragdoll-poc-serve/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.14.0",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^6.0.3"
+  },
+  "type": "module"
+}

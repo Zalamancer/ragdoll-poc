@@ -1,0 +1,14 @@
+# --- backup .gitignore (added 2026-07-04) ---
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+npm-debug.log*
+.vite/
+.cache/
+.parcel-cache/
+.env
+.env.*
+!.env.example
+!*.env.example

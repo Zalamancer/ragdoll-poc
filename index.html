@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Active Ragdoll PoC — three.js + Rapier</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0e1420; }
+  #app { position: fixed; inset: 0; }
+  #hud { position: fixed; top: 12px; left: 12px; color: #eaf2ff;
+         font: 13px/1.5 -apple-system, system-ui, sans-serif;
+         background: rgba(10, 18, 32, .72); border: 1px solid rgba(255,255,255,.12);
+         border-radius: 10px; padding: 10px 14px; user-select: none; }
+  #hud h1 { font-size: 14px; margin: 0 0 4px; }
+  #hud .keys { opacity: .85; }
+  #hud kbd { background: rgba(255,255,255,.14); border-radius: 4px; padding: 0 5px; font: inherit; }
+  #hud .row { margin-top: 8px; display: flex; gap: 8px; }
+  #hud button { cursor: pointer; border: 0; border-radius: 6px; padding: 5px 10px; font: inherit;
+                color: #08131f; background: #7dd3fc; }
+  #hud button.warn { background: #fca5a5; }
+  #status { margin-top: 6px; opacity: .7; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="hud">
+  <h1>Active Ragdoll — three.js + Rapier</h1>
+  <div class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk · <kbd>Space</kbd> ragdoll · <kbd>R</kbd> shove · drag to orbit</div>
+  <div class="row">
+    <button id="btn-ragdoll" class="warn">Ragdoll (Space)</button>
+    <button id="btn-shove">Shove (R)</button>
+  </div>
+  <div id="status">loading physics…</div>
+</div>
+<script>
+  // Surface silent module/init failures in the status line (runs before any module)
+  addEventListener('error', function (e) {
+    var s = document.getElementById('status');
+    var src = e.target && e.target.src;
+    if (s) s.textContent = 'error: ' + (e.message || ('failed to load ' + (src || 'resource')));
+  }, true);
+  addEventListener('unhandledrejection', function (e) {
+    var s = document.getElementById('status');
+    if (s) s.textContent = 'error: ' + ((e.reason && e.reason.message) || e.reason);
+  });
+  setTimeout(function () {
+    var s = document.getElementById('status');
+    if (s && /loading|compiling|building|creating/.test(s.textContent)) {
+      s.textContent += ' — stuck? tap ⟳ to reload';
+    }
+  }, 12000);
+</script>
+<script type="module" src="./dist/main.js"></script>
+</body>
+</html>
